@@ -49,7 +49,4 @@ pub fn process_image(image_data: &[u8], format: &str) -> Vec<u8> {
 
      // Return the processed image data
      output_data
-
 }
-
-
