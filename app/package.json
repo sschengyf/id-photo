@@ -27,6 +27,7 @@
     "webpack-dev-server": "5.0.4"
   },
   "dependencies": {
+    "image-processor": "file:../libs/image-processor/pkg",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   }
