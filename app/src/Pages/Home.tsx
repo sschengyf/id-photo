@@ -37,9 +37,9 @@ export const Home = () => {
   };
 
   return (
-    <div>
+    <>
       <input type="file" accept="image/*" onChange={handleImageUpload} />
       {imageUrl && <img src={imageUrl} alt="Uploaded Image" />}
-    </div>
+    </>
   );
 };
