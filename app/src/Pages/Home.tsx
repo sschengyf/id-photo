@@ -5,6 +5,8 @@ import './Home.css';
 
 export const Home = () => {
   const [imageUrl, setImageUrl] = useState('');
+  const [photoSize, setPhotoSize] = useState('3x4cm');
+  const [printSize, setPrintSize] = useState('10x15cm');
   const [isDraggingOver, setIsDraggingOver] = useState(false);
 
   const handleFile = (file: File) => {
@@ -18,11 +20,17 @@ export const Home = () => {
 
         const processedData = process_image(
           uint8Array,
-          fileType.replace('image/', '')
+          fileType.replace('image/', ''),
+          photoSize,
+          printSize
         );
+
+        console.log('Processed data:', processedData);
 
         // Convert Vec<u8> to Uint8Array
         const processedImgUint8Array = new Uint8Array(processedData);
+
+        console.log('Processed image:', processedImgUint8Array);
 
         // Create Blob from Uint8Array
         const blob = new Blob([processedImgUint8Array], { type: fileType });
@@ -75,10 +83,15 @@ export const Home = () => {
               Photo size
             </label>
             <div>
-              <select className="block appearance-none w-full border border-gray-200 text-gray-500 py-3 px-5 rounded">
-                <option>3 x 4 cm</option>
-                <option>3.5 x 4.5 cm</option>
-                <option>5.1 x 5.1 cm</option>
+              <select
+                name="photo_size"
+                value={photoSize}
+                onChange={(e) => setPhotoSize(e.target.value)}
+                className="block appearance-none w-full border border-gray-200 text-gray-500 py-3 px-5 rounded"
+              >
+                <option value="3x4cm">3 x 4 cm</option>
+                <option value="3.5x4.5cm">3.5 x 4.5 cm</option>
+                <option value="5.1x5.1cm">5.1 x 5.1 cm</option>
               </select>
             </div>
           </div>
@@ -87,8 +100,13 @@ export const Home = () => {
               Print size
             </label>
             <div>
-              <select className="block appearance-none w-full border border-gray-200 text-gray-500 py-3 px-5 rounded">
-                <option>10 x 15 cm (4 x 6 inches)</option>
+              <select
+                name="print_size"
+                value={printSize}
+                onChange={(e) => setPrintSize(e.target.value)}
+                className="block appearance-none w-full border border-gray-200 text-gray-500 py-3 px-5 rounded"
+              >
+                <option value="10x15cm">10 x 15 cm (4 x 6 inches)</option>
               </select>
             </div>
           </div>
