@@ -38,11 +38,20 @@ pub fn process_image(image_data: &[u8], format: &str, photo_size: &str, print_si
 
     let img = image::load_from_memory_with_format(image_data, image_format).unwrap();
 
+    let (img_original_width, img_original_height) = img.dimensions();
+
+    let resize_rate = photo_size_in_pixels.width as f32 / img_original_width as f32;
+
+    let resize_height = (img_original_height as f32 * resize_rate) as u32;
+
     // Resize the image
-    let resized_image = img.resize_exact(photo_size_in_pixels.width, photo_size_in_pixels.height, image::imageops::FilterType::Lanczos3);
+    let mut resized_image = img.resize_exact(photo_size_in_pixels.width, resize_height, image::imageops::FilterType::Lanczos3);
+
+    // Crop the resized image to the chosen photo size
+    let cropped_image = resized_image.crop(0, (resize_height - photo_size_in_pixels.height) / 2, photo_size_in_pixels.width, photo_size_in_pixels.height);
 
     if image_format == ImageFormat::Jpeg {
-        process_jpeg(resized_image, print_size_in_pixels)
+        process_jpeg(cropped_image, print_size_in_pixels)
     } else {
         panic!("Unsupported image format. Only JPEG format is supported.");
     }
