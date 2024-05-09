@@ -29,7 +29,7 @@ pub fn process_image(image_data: &[u8], format: &str, photo_size: &str, print_si
     };
 
     let print_size_in_pixels = match print_size.to_lowercase().as_str() {
-        "10x15cm" => Size { width: 1200, height: 1800 },
+        "10x15cm" => Size { width: 1800, height: 1200 },
         _ => {
             // Unsupported photo size, return an empty Vec<u8> or handle the error accordingly
             return Vec::new();
@@ -59,22 +59,35 @@ pub fn process_image(image_data: &[u8], format: &str, photo_size: &str, print_si
 
 fn process_jpeg(resized_image: DynamicImage, print_size_in_pixels: Size) -> Vec<u8> {
     let (id_photo_width, id_photo_height) = resized_image.dimensions();
-    let margin = 10; // Adjust spacing as needed
+    let gap = 5; // Adjust spacing as needed
+    let print_padding = 20; // Adjust padding as needed
+    let Size {width: print_width, height: print_height} = print_size_in_pixels;
 
-    let mut collage = ImageBuffer::from_pixel(print_size_in_pixels.height, print_size_in_pixels.width, Rgb([255, 255, 255]));
+    let col_num = (print_width - print_padding * 2) / (id_photo_width + gap);
+    let row_num = print_height / (id_photo_height + gap);
 
-    for y in 0..2 {
-        for x in 0..3 {
-            let x_offset = x * (id_photo_width + margin);
-            let y_offset = y * (id_photo_height + margin);
+    let occupied_width = col_num * id_photo_width + (col_num - 1) * gap;
+    let occupied_height = row_num * id_photo_height + (row_num - 1) * gap;
+
+    let mut collage = ImageBuffer::from_pixel(occupied_width, occupied_height, Rgb([255, 255, 255]));
+
+    for y in 0..row_num {
+        for x in 0..col_num {
+            let x_offset = x * (id_photo_width + gap);
+            let y_offset = y * (id_photo_height + gap);
             image::imageops::overlay(&mut collage, &resized_image.to_rgb8(), x_offset.into(), y_offset.into());
         }
     }
 
+    let mut underlay = ImageBuffer::from_pixel(print_width, print_height, Rgb([255, 255, 255]));
+    let print_offset_x = (print_width - occupied_width) / 2;
+    let print_offset_y = (print_height - occupied_height) / 2;
+    image::imageops::overlay(&mut underlay, &collage, print_offset_x.into(), print_offset_y.into());
+
      // Convert the resized image to a Vec<u8>
     let mut output_data = Vec::new();
     let mut output_cursor = std::io::Cursor::new(&mut output_data);
-    collage.write_to(&mut output_cursor, ImageFormat::Jpeg).unwrap();
+    underlay.write_to(&mut output_cursor, ImageFormat::Jpeg).unwrap();
 
     // Return the processed image data
     output_data

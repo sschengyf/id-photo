@@ -89,9 +89,11 @@ export const Home = () => {
                 onChange={(e) => setPhotoSize(e.target.value)}
                 className="block appearance-none w-full border border-gray-200 text-gray-500 py-3 px-5 rounded"
               >
-                <option value="3x4cm">3 x 4 cm</option>
-                <option value="3.5x4.5cm">3.5 x 4.5 cm</option>
-                <option value="5.1x5.1cm">5.1 x 5.1 cm</option>
+                <option value="3x4cm">3 x 4 cm (1.18 x 1.57 inches)</option>
+                <option value="3.5x4.5cm">
+                  3.5 x 4.5 cm (1.38 x 1.77 inches)
+                </option>
+                <option value="5.1x5.1cm">5.1 x 5.1 cm (2 x 2 inches)</option>
               </select>
             </div>
           </div>
