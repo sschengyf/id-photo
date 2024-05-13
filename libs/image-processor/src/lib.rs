@@ -2,6 +2,7 @@ extern crate image;
 
 use wasm_bindgen::prelude::*;
 use image::{DynamicImage, GenericImageView, ImageBuffer, ImageFormat, Rgb};
+use imageproc::drawing::draw_text_mut;
 
 struct Size {
     width: u32,
@@ -51,13 +52,13 @@ pub fn process_image(image_data: &[u8], format: &str, photo_size: &str, print_si
     let cropped_image = resized_image.crop(0, (resize_height - photo_size_in_pixels.height) / 2, photo_size_in_pixels.width, photo_size_in_pixels.height);
 
     if image_format == ImageFormat::Jpeg {
-        process_jpeg(cropped_image, print_size_in_pixels)
+        process_jpeg(cropped_image, print_size_in_pixels, photo_size, print_size)
     } else {
         panic!("Unsupported image format. Only JPEG format is supported.");
     }
 }
 
-fn process_jpeg(resized_image: DynamicImage, print_size_in_pixels: Size) -> Vec<u8> {
+fn process_jpeg(resized_image: DynamicImage, print_size_in_pixels: Size, photo_size: &str, print_size: &str) -> Vec<u8> {
     let (id_photo_width, id_photo_height) = resized_image.dimensions();
     let gap = 5; // Adjust spacing as needed
     let print_padding = 20; // Adjust padding as needed
@@ -80,8 +81,20 @@ fn process_jpeg(resized_image: DynamicImage, print_size_in_pixels: Size) -> Vec<
     }
 
     let mut underlay = ImageBuffer::from_pixel(print_width, print_height, Rgb([255, 255, 255]));
+    // Set the scale (size) of the text
+    let scale = ab_glyph::PxScale { x: 24.0, y: 24.0 };
+
+    // Load a font from file
+    let font_data = include_bytes!("./fonts/Inter-VariableFont_slnt,wght.ttf"); // replace this with your font path
+    let font = ab_glyph::FontArc::try_from_slice(font_data as &[u8]).unwrap();
+
+
     let print_offset_x = (print_width - occupied_width) / 2;
     let print_offset_y = (print_height - occupied_height) / 2;
+
+    let size_string = format!("{} - {}", photo_size, print_size);
+    draw_text_mut(&mut underlay, Rgb([0u8, 0u8, 0u8]), print_offset_x as i32, (occupied_height + print_offset_y + 5) as i32, scale, &font, &size_string);
+
     image::imageops::overlay(&mut underlay, &collage, print_offset_x.into(), print_offset_y.into());
 
      // Convert the resized image to a Vec<u8>
