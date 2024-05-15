@@ -33,6 +33,7 @@
   "dependencies": {
     "image-processor": "file:../libs/image-processor/pkg",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-router-dom": "6.23.1"
   }
 }
