@@ -92,7 +92,7 @@ fn process_jpeg(resized_image: DynamicImage, print_size_in_pixels: Size, photo_s
     let print_offset_x = (print_width - occupied_width) / 2;
     let print_offset_y = (print_height - occupied_height) / 2;
 
-    let size_string = format!("{} - {}", photo_size, print_size);
+    let size_string = format!("Photo size: {} Print size: {} theidphoto.com", photo_size, print_size);
     draw_text_mut(&mut underlay, Rgb([0u8, 0u8, 0u8]), print_offset_x as i32, (occupied_height + print_offset_y + 5) as i32, scale, &font, &size_string);
 
     image::imageops::overlay(&mut underlay, &collage, print_offset_x.into(), print_offset_y.into());
