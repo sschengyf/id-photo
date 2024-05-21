@@ -10,7 +10,7 @@ export const Header = () => (
       </p>
     </div>
     <div className="basis-1/2">
-      <img src="/images/banner.svg" className="block ml-auto" />
+      <img src="/images/banner.png" className="block ml-auto" />
     </div>
   </header>
 );
