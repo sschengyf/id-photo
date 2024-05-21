@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export const Privacy = () => {
   return (
-    <div className="container mx-auto pt-24 bg-white h-screen flex flex-col max-w-screen-xl">
+    <div className="container mx-auto pt-24 bg-white h-screen flex flex-col max-w-screen-lg">
       <header className="flex items-center text-neutral-800">
         <Link to="/">
           <div className="flex items-center">
