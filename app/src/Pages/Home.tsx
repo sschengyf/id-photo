@@ -81,14 +81,14 @@ export const Home = () => {
   };
 
   return (
-    <div className="container mx-auto pt-28 bg-white h-screen flex flex-col max-w-screen-xl">
+    <div className="container mx-auto pt-12 lg:pt-20 xl:pt-28 bg-white h-screen flex flex-col px-4 xl:px-0 max-w-screen-xl">
       <Header />
       <main className="grow">
-        <div className="mt-24">
+        <div className="mt-8 lg:mt-24">
           {!idPhotoUrl && (
             <form>
-              <div className="flex flex-row justify-center">
-                <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+              <div className="flex flex-col md:flex-row justify-center">
+                <div className="w-full md:w-2/5 lg:w-1/3 px-3 mb-6 md:mb-0">
                   <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                     Photo size
                   </label>
@@ -111,7 +111,7 @@ export const Home = () => {
                     </select>
                   </div>
                 </div>
-                <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                <div className="w-full md:w-2/5 lg:w-1/3 px-3 mb-6 md:mb-0">
                   <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                     Print size
                   </label>
@@ -129,7 +129,7 @@ export const Home = () => {
               </div>
               <div
                 className={
-                  'm-auto w-2/4 rounded-md border-2 border-dashed py-8 mt-10 text-center cursor-pointer' +
+                  'm-auto md:w-1/2 rounded-md border-2 border-dashed py-8 mt-10 text-center cursor-pointer' +
                   (isDraggingOver ? ' border-blue-500' : ' border-gray-300')
                 }
                 onDrop={handleDrop}
