@@ -141,6 +141,7 @@ export const Home = () => {
                   <FileIcon className="m-auto" />
                 </div>
                 <p className="mt-4">Select a file or drag and drop here</p>
+                <p className="text-gray-500">JPG, JPEG</p>
                 <label>
                   <div className="bg-blue-500 hover:bg-blue-700 text-white px-6 py-3 file-button cursor-pointer inline-block mt-4">
                     <span className="pl-2">Select photo</span>
