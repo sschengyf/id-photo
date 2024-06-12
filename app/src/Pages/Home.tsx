@@ -155,7 +155,7 @@ export const Home = () => {
                   </div>
                   <input
                     type="file"
-                    accept="image/*"
+                    accept="image/jpeg, image/jpg"
                     onChange={handleImageUpload}
                     className="hidden"
                   />
