@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { FileIcon, Header, Footer } from '../components';
 import './Home.css';
 
+const SUPPORTED_FILE_TYPES = ['image/jpeg', 'image/jpg'];
+
 export const Home = () => {
   const [idPhotoUrl, setIdPhotoUrl] = useState('');
   const [photoSize, setPhotoSize] = useState('3x4cm');
@@ -12,6 +14,11 @@ export const Home = () => {
   const handleFile = (file: File) => {
     const reader = new FileReader();
     const fileType = file.type;
+
+    if (!SUPPORTED_FILE_TYPES.includes(fileType)) {
+      alert('Please upload a JPG or JPEG file.');
+      return;
+    }
 
     reader.onload = async (e) => {
       const arrayBuffer = e.target?.result;
