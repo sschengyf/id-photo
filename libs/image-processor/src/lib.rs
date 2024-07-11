@@ -46,10 +46,10 @@ pub fn process_image(image_data: &[u8], format: &str, photo_size: &str, print_si
     let resize_height = (img_original_height as f32 * resize_rate) as u32;
 
     // Resize the image
-    let mut resized_image = img.resize_exact(photo_size_in_pixels.width, resize_height, image::imageops::FilterType::Lanczos3);
+    let resized_image = img.resize_exact(photo_size_in_pixels.width, resize_height, image::imageops::FilterType::Lanczos3);
 
     // Crop the resized image to the chosen photo size
-    let cropped_image = resized_image.crop(0, (resize_height - photo_size_in_pixels.height) / 2, photo_size_in_pixels.width, photo_size_in_pixels.height);
+    let cropped_image = if resize_height > photo_size_in_pixels.height {resized_image.crop_imm(0, (resize_height - photo_size_in_pixels.height) / 2, photo_size_in_pixels.width, photo_size_in_pixels.height)} else {resized_image};
 
     if image_format == ImageFormat::Jpeg {
         process_jpeg(cropped_image, print_size_in_pixels, photo_size, print_size)
