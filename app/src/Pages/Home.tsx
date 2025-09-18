@@ -88,7 +88,7 @@ export const Home = () => {
   };
 
   return (
-    <div className="container mx-auto pt-12 lg:pt-20 xl:pt-24 bg-white h-screen flex flex-col px-4 xl:px-0 max-w-screen-xl">
+    <div className="container mx-auto pt-12 lg:pt-18 bg-white h-screen flex flex-col px-4 xl:px-0 max-w-screen-xl">
       <Header />
       <main className="grow">
         <div className="mt-8 lg:mt-24">
